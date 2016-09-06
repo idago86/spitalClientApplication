@@ -9,10 +9,10 @@ import dto.AdminDTO;
 import dto.MedicDTO;
 import dto.PacientDTO;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import remote.InterfaceRemote;
+import utils.Cryptare;
 
 /**
  *
@@ -41,12 +41,13 @@ public class ServicesController {
     }
     
     public boolean register(String user, String parola) throws Exception{
-        AdminDTO admin = new AdminDTO(user, parola);
-        return remote.register(admin);
+        AdminDTO admin = new AdminDTO(user, Cryptare.hidePassword(parola));
+        boolean rez = remote.register(admin);
+        return rez;
     }
     
     public AdminDTO login (String user, String parola) throws Exception{
-        AdminDTO admin = new AdminDTO(user, parola);
+        AdminDTO admin = new AdminDTO(user, Cryptare.hidePassword(parola));
         return remote.login(admin);
     }
     

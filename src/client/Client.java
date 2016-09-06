@@ -5,12 +5,16 @@
  */
 package client;
 
+import client.guiControllers.LoginFrameController;
+import client.guiControllers.RegisterFrameController;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -18,27 +22,19 @@ import javafx.stage.Stage;
  * @author Israel Dago
  */
 public class Client extends Application {
+    private Stage window;
+    private Scene scene;
+    private AnchorPane root;
+    private static LoginFrameController lfc;
     
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage primaryStage){
+        try { 
+            this.showLoginFrame(primaryStage);
+            lfc.setClient(this);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }        
     }
 
     /**
@@ -47,5 +43,36 @@ public class Client extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
+    
+    private void showLoginFrame(Stage stage) throws IOException{
+        this.window= stage;
+        FXMLLoader fxml = new FXMLLoader();
+        fxml.setLocation(Client.class.getResource("gui/LoginFrame.fxml"));
+        this.root = fxml.load();
+        this.lfc= fxml.getController();
+        this.scene= new Scene(root);
+        this.window.setScene(scene);
+        this.window.setTitle("Login Frame");
+        this.window.setResizable(false);
+        this.window.show();        
+    }
+    
+    public static RegisterFrameController showRegisterFrame(ActionEvent ev) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxml = new FXMLLoader();   
+        fxml.setLocation(Client.class.getResource("gui/RegisterFrame.fxml"));
+        AnchorPane root = fxml.load();
+        RegisterFrameController rfc = fxml.getController();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner( ((Node)ev.getSource()).getScene().getWindow() );
+        stage.show();
+        return rfc;
+    }
+    
+    
     
 }
