@@ -11,7 +11,7 @@
       <TextField fx:id="userFld" alignment="CENTER" layoutX="78.0" layoutY="42.0" prefHeight="25.0" prefWidth="237.0" promptText="User" />
       <HBox alignment="CENTER" layoutX="81.0" layoutY="142.0" spacing="40.0" AnchorPane.bottomAnchor="30.0">
          <children>
-            <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Login" />
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLoginBtnClick" prefHeight="25.0" prefWidth="92.0" text="Login" />
             <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" prefHeight="25.0" prefWidth="99.0" text="Register" />
          </children>
       </HBox>
